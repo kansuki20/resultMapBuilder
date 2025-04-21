@@ -29,13 +29,27 @@
 
     </extensions>
     <actions>
-        <action class="dev.kansuki20.resultmapbuilder.GenerateResultMapAction"
-                text="To ResultMap 🚀"
-                description="Generate MyBatis resultMap from DTO"
-                popup="true"
-                icon="icons/icon.svg">
-            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        <group id="resultMapBuilder.Group"
+               text="ResultMapBuilder"
+               description="MyBatis ResultMap"
+               popup="true">
+
             <add-to-group group-id="ProjectViewPopupMenu" anchor="last"/>
-        </action>
+
+            <action id="ResultMapBuilder.Copy"
+                    class="dev.kansuki20.resultmapbuilder.GenerateResultMapAction"
+                    text="Copy To ResultMap 🚀"
+                    description="Generate MyBatis resultMap from DTO"
+                    popup="true"
+                    icon="icons/icon.svg"/>
+
+            <action id="ResultMapBuilder.Reset"
+                    class="dev.kansuki20.resultmapbuilder.ResetPrefixAction"
+                    text="Change Prefix"
+                    description="Change Db column prefix"
+                    popup="true"
+                    icon="icons/icon.svg"/>
+
+        </group>
     </actions>
 </idea-plugin>

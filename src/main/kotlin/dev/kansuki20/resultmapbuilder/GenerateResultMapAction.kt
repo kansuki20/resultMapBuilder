@@ -30,6 +30,9 @@ class GenerateResultMapAction : AnAction() {
         val clazz: PsiClass = psiFile.classes.first()
 
 
+        val dbColumnPrefix = Prefix.getPrefix(e, false) // column 앞에 붙여줄 prefix
+
+
         val resultMapId = clazz.name!!
             .replaceFirstChar { it.lowercase() }
             .replace("Dto", "")
@@ -63,12 +66,14 @@ class GenerateResultMapAction : AnAction() {
                 sb
                     .append("  <id property=\"").append(name)
                     .append("\" column=\"")
+                    .append(dbColumnPrefix)
                     .append(name.toSnakeCase())
                     .append("\"/>\n")
             } else {
                 sb
                     .append("  <result property=\"").append(name)
                     .append("\" column=\"")
+                    .append(dbColumnPrefix)
                     .append(name.toSnakeCase())
                     .append("\"/>\n")
             }
@@ -93,6 +98,7 @@ class GenerateResultMapAction : AnAction() {
         val clazz = psiFile?.classes?.firstOrNull()
         e.presentation.isEnabledAndVisible = clazz != null && clazz.name?.endsWith("Dto") == true
     }
+
 
 
     private fun String.toSnakeCase(): String {
