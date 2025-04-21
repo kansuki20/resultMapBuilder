@@ -8,11 +8,19 @@ import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.actionSystem.CommonDataKeys
 import com.intellij.openapi.ide.CopyPasteManager
 import com.intellij.psi.PsiClass
+import com.intellij.psi.PsiClassType
 import com.intellij.psi.PsiFile
 import com.intellij.psi.PsiJavaFile
 import java.awt.datatransfer.StringSelection
 
 class GenerateResultMapAction : AnAction() {
+    private val allowedTypes = setOf(
+        "int", "long", "double", "float", "boolean", "char", "byte", "short",
+        "java.lang.Integer", "java.lang.Long", "java.lang.Double", "java.lang.Float",
+        "java.lang.Boolean", "java.lang.Character", "java.lang.Byte", "java.lang.Short",
+        "java.lang.String", "java.time.LocalDateTime", "java.util.Date"
+    )
+
     override fun actionPerformed(e: AnActionEvent) {
         val psiFile: PsiFile? = e.getData(CommonDataKeys.PSI_FILE)
         if (psiFile !is PsiJavaFile) return
@@ -21,20 +29,49 @@ class GenerateResultMapAction : AnAction() {
 
         val clazz: PsiClass = psiFile.classes.first()
 
+
+        val resultMapId = clazz.name!!
+            .replaceFirstChar { it.lowercase() }
+            .replace("Dto", "")
+            .replace("dto", "")
+
+
         val sb = StringBuilder()
         sb.append("<resultMap id=\"")
-            .append(clazz.name!!.replaceFirstChar { it.lowercase() })
+            .append(resultMapId)
             .append("Map\" type=\"")
             .append(clazz.qualifiedName)
             .append("\">\n")
 
-        for (field in clazz.allFields) {
+        val allFields = clazz.allFields
+
+        for (i in allFields.indices) {
+            val field = allFields[i]
+            // 기본적인 자료형 체크
+            val fieldType = field.type
+            val typeText = fieldType.canonicalText
+
+            // enum 체크
+            val isEnum = (fieldType as? PsiClassType)?.resolve()?.isEnum == true
+
+            if (typeText !in allowedTypes && !isEnum)
+                continue
+
             val name = field.name
-            sb
-                .append("  <result property=\"").append(name)
-                .append("\" column=\"")
-                .append(name.toSnakeCase())
-                .append("\"/>\n")
+            val lowerName = name.toLowerCase()
+            if (i == 0 && (lowerName.endsWith("idx") || lowerName.endsWith("id"))) {
+                sb
+                    .append("  <id property=\"").append(name)
+                    .append("\" column=\"")
+                    .append(name.toSnakeCase())
+                    .append("\"/>\n")
+            } else {
+                sb
+                    .append("  <result property=\"").append(name)
+                    .append("\" column=\"")
+                    .append(name.toSnakeCase())
+                    .append("\"/>\n")
+            }
         }
 
         sb.append("</resultMap>")
@@ -44,7 +81,7 @@ class GenerateResultMapAction : AnAction() {
             Notification(
                 "ResultMapBuilder",
                 "ResultMap Copied",
-                "[${clazz.name}.class] - copied resultMap\uD83D\uDE80",
+                "[${clazz.name}.class] - copied resultMap \uD83D\uDE80",
                 NotificationType.INFORMATION
             ),
             e.project

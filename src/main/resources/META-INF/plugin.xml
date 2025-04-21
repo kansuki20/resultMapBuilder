@@ -30,7 +30,7 @@
     </extensions>
     <actions>
         <action class="dev.kansuki20.resultmapbuilder.GenerateResultMapAction"
-                text="Copy ResultMap"
+                text="To ResultMap 🚀"
                 description="Generate MyBatis resultMap from DTO"
                 popup="true"
                 icon="icons/icon.svg">
