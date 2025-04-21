@@ -94,9 +94,27 @@ class GenerateResultMapAction : AnAction() {
     }
 
     override fun update(e: AnActionEvent) {
-        val psiFile = e.getData(CommonDataKeys.PSI_FILE) as? PsiJavaFile
-        val clazz = psiFile?.classes?.firstOrNull()
-        e.presentation.isEnabledAndVisible = clazz != null && clazz.name?.endsWith("Dto") == true
+        e.presentation.isVisible = true
+        e.presentation.isEnabled = true
+
+
+        /*val psiFile = e.getData(CommonDataKeys.PSI_FILE)
+        val psiElement = e.getData(CommonDataKeys.PSI_ELEMENT)
+
+        val isJava = psiFile is PsiJavaFile || psiElement is PsiClass
+
+        val className = when {
+            psiFile is PsiJavaFile -> psiFile.classes.firstOrNull()?.name
+            psiElement is PsiClass -> psiElement.name
+            else -> null
+        }
+
+        val isDto = className?.endsWith("Dto") == true
+
+        // java or class 에서만 보이게 함
+        e.presentation.isVisible = isJava
+        // Dto일 때만 클릭되게
+        e.presentation.isEnabled = isDto*/
     }
 
 

@@ -35,6 +35,8 @@
                popup="true">
 
             <add-to-group group-id="ProjectViewPopupMenu" anchor="last"/>
+            <add-to-group group-id="ProjectViewPopupMenu.v2" anchor="last"/>
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
 
             <action id="ResultMapBuilder.Copy"
                     class="dev.kansuki20.resultmapbuilder.GenerateResultMapAction"

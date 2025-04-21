@@ -20,14 +20,24 @@ intellij {
   plugins.set(listOf("java"))
 }
 
+
 tasks {
+  buildSearchableOptions {
+    enabled = false
+  }
+
+  patchPluginXml {
+    sinceBuild.set("231")
+  }
+
+
   // Set the JVM compatibility versions
   withType<JavaCompile> {
-    sourceCompatibility = "17"
-    targetCompatibility = "17"
+    sourceCompatibility = "11"
+    targetCompatibility = "11"
   }
   withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
-    kotlinOptions.jvmTarget = "17"
+    kotlinOptions.jvmTarget = "11"
   }
 
   patchPluginXml {
