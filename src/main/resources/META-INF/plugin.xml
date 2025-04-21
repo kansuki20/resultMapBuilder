@@ -14,13 +14,14 @@
          Simple HTML elements (text formatting, paragraphs, and lists) can be added inside of <![CDATA[ ]]> tag.
          Guidelines: https://plugins.jetbrains.com/docs/marketplace/plugin-overview-page.html#plugin-description -->
     <description><![CDATA[
-    Enter short description for your plugin here.<br>
-    <em>most HTML tags may be used</em>
+    Generate MyBatis `<resultMap>` from a Java DTO class.<br>
+    Right-click any DTO and copy the resultMap to clipboard.
   ]]></description>
 
     <!-- Product and plugin compatibility requirements.
          Read more: https://plugins.jetbrains.com/docs/intellij/plugin-compatibility.html -->
     <depends>com.intellij.modules.platform</depends>
+    <depends>com.intellij.modules.java</depends>
 
     <!-- Extension points defined by the plugin.
          Read more: https://plugins.jetbrains.com/docs/intellij/plugin-extension-points.html -->
@@ -31,8 +32,10 @@
         <action class="dev.kansuki20.resultmapbuilder.GenerateResultMapAction"
                 text="Copy ResultMap"
                 description="Generate MyBatis resultMap from DTO"
-                popup="true">
-            <add-to-group group-id="EditorPopupMenu" anchor="last"></add-to-group>
+                popup="true"
+                icon="icons/icon.svg">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+            <add-to-group group-id="ProjectViewPopupMenu" anchor="last"/>
         </action>
     </actions>
 </idea-plugin>

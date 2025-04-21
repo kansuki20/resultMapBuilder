@@ -1,5 +1,8 @@
 package dev.kansuki20.resultmapbuilder
 
+import com.intellij.notification.Notification
+import com.intellij.notification.NotificationType
+import com.intellij.notification.Notifications
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.actionSystem.CommonDataKeys
@@ -36,6 +39,22 @@ class GenerateResultMapAction : AnAction() {
 
         sb.append("</resultMap>")
         CopyPasteManager.getInstance().setContents(StringSelection(sb.toString()))
+
+        Notifications.Bus.notify(
+            Notification(
+                "ResultMapBuilder",
+                "ResultMap Copied",
+                "[${clazz.name}.class] - copied resultMap\uD83D\uDE80",
+                NotificationType.INFORMATION
+            ),
+            e.project
+        )
+    }
+
+    override fun update(e: AnActionEvent) {
+        val psiFile = e.getData(CommonDataKeys.PSI_FILE) as? PsiJavaFile
+        val clazz = psiFile?.classes?.firstOrNull()
+        e.presentation.isEnabledAndVisible = clazz != null && clazz.name?.endsWith("Dto") == true
     }
 
 
