@@ -18,7 +18,7 @@ class GenerateResultMapAction : AnAction() {
         "int", "long", "double", "float", "boolean", "char", "byte", "short",
         "java.lang.Integer", "java.lang.Long", "java.lang.Double", "java.lang.Float",
         "java.lang.Boolean", "java.lang.Character", "java.lang.Byte", "java.lang.Short",
-        "java.lang.String", "java.time.LocalDateTime", "java.util.Date"
+        "java.lang.String", "java.time.LocalTime", "java.time.LocalDate", "java.time.LocalDateTime", "java.util.Date"
     )
 
     override fun actionPerformed(e: AnActionEvent) {
