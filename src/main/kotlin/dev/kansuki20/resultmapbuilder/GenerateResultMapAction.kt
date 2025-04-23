@@ -64,17 +64,19 @@ class GenerateResultMapAction : AnAction() {
             val lowerName = name.toLowerCase()
             if (i == 0 && (lowerName.endsWith("idx") || lowerName.endsWith("id"))) {
                 sb
-                    .append("  <id property=\"").append(name)
-                    .append("\" column=\"")
-                    .append(dbColumnPrefix)
-                    .append(name.toSnakeCase())
+                    .append("  <id column=\"")
+                        .append(dbColumnPrefix)
+                        .append(name.toSnakeCase())
+                    .append("\" property=\"")
+                        .append(name)
                     .append("\"/>\n")
             } else {
                 sb
-                    .append("  <result property=\"").append(name)
-                    .append("\" column=\"")
-                    .append(dbColumnPrefix)
-                    .append(name.toSnakeCase())
+                    .append("  <result column=\"")
+                        .append(dbColumnPrefix)
+                        .append(name.toSnakeCase())
+                    .append("\" property=\"")
+                        .append(name)
                     .append("\"/>\n")
             }
         }
